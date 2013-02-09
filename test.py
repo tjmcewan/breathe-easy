@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-import sys, os
-sys.path.insert(0, 'sdk/gen-py')
-sys.path.insert(0, 'sdk')
+import os, sys, inspect
+for subfolder in ["sdk", "sdk/gen-py"]:
+  abs_path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], subfolder)))
+  sys.path.append(abs_path)
 
 import o2managementlib
 from o2exceptions import *

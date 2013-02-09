@@ -1,0 +1,3 @@
+[submodule "sdk"]
+	path = sdk
+	url = git@github.com:tjmcewan/oxygen_cloud_management_sdk.git

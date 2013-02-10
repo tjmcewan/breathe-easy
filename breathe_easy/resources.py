@@ -5,7 +5,7 @@ from breathe_easy import app
 
 @app.route('/')
 def index():
-    return 'Welome to Breathe Easy!  Take a deep breath and relax.'
+    return 'Welcome to Breathe Easy!  Take a deep breath and relax.'
 
 @app.route('/workspaces')
 def workspaces():

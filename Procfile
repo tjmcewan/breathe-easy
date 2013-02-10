@@ -1,1 +1,1 @@
-web: python breathe_easy.py
+web: python server.py

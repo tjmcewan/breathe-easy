@@ -13,7 +13,15 @@ class BreatheEasyUnitTests(TestCase):
     def test_root_content(self):
         response = self.client.get('/')
         welcome_message = 'Welcome to Breathe Easy!  Take a deep breath and relax.'
-        assert welcome_message in response.data, '%s not found in %s' %(welcome_message, response.data)
+        self.assertEqual(response.data, welcome_message)
+
+    def test_workspaces_resource(self):
+        response = self.client.get("/workspaces")
+        self.assertEqual(response.json, dict(success=True))
+
+    def test_favicon(self):
+        response = self.client.get("/favicon.ico")
+        self.assertEqual(response.headers.get('content-type'), 'image/x-icon')
 
 
 class BreatheEasyIntegrationTests(LiveServerTestCase):

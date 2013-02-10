@@ -1,8 +1,7 @@
 Flask==0.9
-Flask-Testing==0.4
-Jinja2==2.6
-Werkzeug==0.8.3
+
+# testing extensions
+-e git+https://github.com/jarus/flask-testing.git@06fef55#egg=Flask-Testing
 nose==1.2.1
-parse==1.6.1
-python-termstyle==0.1.10
 rednose==0.3.3
+nose-cov==1.6

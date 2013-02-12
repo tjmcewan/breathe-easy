@@ -5,7 +5,7 @@ from breathe_easy import app
 
 @app.route('/')
 def index():
-    return 'Welcome to Breathe Easy!  Take a deep breath and relax.'
+    return 'Welcome to Respirator!  Take a deep breath and relax.'
 
 @app.route('/favicon.ico')
 def favicon():

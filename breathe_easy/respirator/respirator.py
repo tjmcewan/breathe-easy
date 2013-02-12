@@ -2,7 +2,6 @@ import sys
 import o2managementlib
 from o2exceptions import *
 
-
 class Respirator():
 
     def __init__(self, api_key, oxygen_id, password):

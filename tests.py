@@ -20,3 +20,7 @@ class BreatheEasyTestCase(unittest.TestCase):
         app = flask.Flask(__name__)
         with app.test_request_context('/workspaces'):
             self.assertEqual(flask.request.path, '/workspaces')
+
+
+if __name__ == '__main__':
+    unittest.main()

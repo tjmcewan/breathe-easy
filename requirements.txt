@@ -1,7 +1,1 @@
 Flask==0.9
-
-# testing extensions
--e git+https://github.com/jarus/flask-testing.git@06fef55#egg=Flask-Testing
-nose==1.2.1
-rednose==0.3.3
-nose-cov==1.6

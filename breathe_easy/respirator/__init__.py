@@ -7,5 +7,3 @@ for subfolder in ["../../sdk", "../../sdk/gen-py"]:
   sys.path.append(abs_path)
 
 from respirator import Respirator
-
-# __all__ = ['Respirator']

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-import pdb
+
 import os, sys, inspect
-for subfolder in ["sdk", "sdk/gen-py"]:
+for subfolder in ["../../sdk", "../../sdk/gen-py"]:
   abs_path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], subfolder)))
   sys.path.append(abs_path)
 
@@ -9,7 +9,7 @@ import o2managementlib
 from o2exceptions import *
 
 
-# Please request an admin api key from support.oxygencloud.com
+# Please request an admin api key from support.oxygencloud.company
 api_key = os.environ['OC_API_KEY']
 
 # Create an O2Agent using the O2AgentFactory
@@ -41,8 +41,6 @@ except O2Exception as e:
 
 # whoami
 me = o2.get_user_info()
-
-pdb.set_trace()
 
 # User's information is represented as an O2UserInfo object.
 # You can retrieve user information by calling O2UserInfo methods

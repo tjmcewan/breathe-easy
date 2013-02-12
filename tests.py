@@ -1,37 +1,22 @@
-import urllib2
-from flask.ext.testing import TestCase, LiveServerTestCase
+import unittest
 import breathe_easy
+import flask
 
+class BreatheEasyTestCase(unittest.TestCase):
 
-class BreatheEasyUnitTests(TestCase):
+    def setUp(self):
+        self.app = breathe_easy.app.test_client()
 
-    def create_app(self):
-        app = breathe_easy.app
-        app.config['TESTING'] = True
-        return app
+    def tearDown(self):
+        pass
 
     def test_root_content(self):
-        response = self.client.get('/')
+        response = self.app.get('/')
         welcome_message = 'Welcome to Breathe Easy!  Take a deep breath and relax.'
         self.assertEqual(response.data, welcome_message)
+        self.assertEqual(response.status_code, 200)
 
-    def test_workspaces_resource(self):
-        response = self.client.get("/workspaces")
-        self.assertEqual(response.json, dict(success=True))
-
-    def test_favicon(self):
-        response = self.client.get("/favicon.ico")
-        self.assertEqual(response.headers.get('content-type'), 'image/x-icon')
-
-
-class BreatheEasyIntegrationTests(LiveServerTestCase):
-
-    def create_app(self):
-        app = breathe_easy.app
-        app.config['TESTING'] = True
-        return app
-
-    def test_root_response_code(self):
-        """make sure we get the proper response code"""
-        response = urllib2.urlopen(self.get_server_url())
-        assert response.code == 200
+    def test_request_object(self):
+        app = flask.Flask(__name__)
+        with app.test_request_context('/workspaces'):
+            self.assertEqual(flask.request.path, '/workspaces')

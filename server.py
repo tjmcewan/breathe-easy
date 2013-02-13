@@ -1,5 +1,5 @@
 import os
-from breathe_easy import app
+from respirator import app
 
 
 if __name__ == '__main__':

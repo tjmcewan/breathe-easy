@@ -1,18 +1,19 @@
 import unittest
-import breathe_easy
+import respirator
 import flask
 
-class BreatheEasyTestCase(unittest.TestCase):
+class RespiratorTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = breathe_easy.app.test_client()
+        respirator.app.debug = True
+        self.app = respirator.app.test_client()
 
     def tearDown(self):
         pass
 
     def test_root_content(self):
         response = self.app.get('/')
-        welcome_message = 'Welcome to Breathe Easy!  Take a deep breath and relax.'
+        welcome_message = 'Welcome to Respirator!  Take a deep breath and relax.'
         self.assertEqual(response.data, welcome_message)
         self.assertEqual(response.status_code, 200)
 

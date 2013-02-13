@@ -1,13 +1,16 @@
 from flask import Flask
-app = Flask(__name__)
+from flask_sslify import SSLify
 
-import breathe_easy.resources
+app = Flask(__name__)
+sslify = SSLify(app)
+
+import respirator.resources
 
 import os
-from respirator import Respirator
+from mask import Mask
 
 api_key = os.environ['O2_API_KEY']
 oxygen_id = os.environ['O2_OXYGEN_ID']
 password = os.environ['O2_PASSWORD']
 
-app.respirator = Respirator(api_key, oxygen_id, password)
+app.mask = Mask(api_key, oxygen_id, password)

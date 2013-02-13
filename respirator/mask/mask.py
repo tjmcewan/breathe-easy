@@ -2,7 +2,7 @@ import sys
 import o2managementlib
 from o2exceptions import *
 
-class Respirator():
+class Mask():
 
     def __init__(self, api_key, oxygen_id, password):
         self.o2 = o2managementlib.O2AgentFactory().create_O2Agent(api_key)

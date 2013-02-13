@@ -1,6 +1,7 @@
+import pdb
 import os
-from flask import send_from_directory, jsonify
-from breathe_easy import app
+from flask import send_from_directory, jsonify, request
+from respirator import app
 
 
 @app.route('/')
@@ -17,7 +18,7 @@ def workspaces():
 
 @app.route('/spaces')
 def spaces():
-    spaces = app.respirator.subscriptions_for_user('tim@mcewan.it')
+    spaces = app.mask.subscriptions_for_user('tim@mcewan.it')
     space_info = {}
     for space in spaces:
         space_name = space.get_space_name()
@@ -28,6 +29,10 @@ def spaces():
 
     return jsonify(space_info)
 
-# @app.route('/mirror')
-# def mirror():
-#     return jsonify
+@app.route('/mirror', methods=['GET', 'POST'])
+def mirror():
+    if request.method == 'GET':
+        return "ECHO: GET\n"
+
+    elif request.method == 'POST':
+        return jsonify(request.json)

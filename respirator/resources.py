@@ -1,8 +1,8 @@
+# TODO remove pdb
 import pdb
 import os
 from flask import send_from_directory, jsonify, request
 from respirator import app
-
 
 @app.route('/')
 def index():
@@ -12,27 +12,37 @@ def index():
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
-@app.route('/workspaces')
+
+@app.route('/workspaces', methods=['POST'])
 def workspaces():
-    return jsonify(success = True)
+    pdb.set_trace()
+    workspace = app.mask.create_workspace(request.json)
+    return jsonify(workspace)
 
-@app.route('/spaces')
-def spaces():
-    spaces = app.mask.subscriptions_for_user('tim@mcewan.it')
-    space_info = {}
-    for space in spaces:
-        space_name = space.get_space_name()
-        space_info[space_name] = {}
-        space_info[space_name]['owner'] = space.get_display_name()
-        space_info[space_name]['manage_permission?'] = space.can_manage()
-        space_info[space_name]['write_permission?'] = space.can_write()
-
-    return jsonify(space_info)
-
-@app.route('/mirror', methods=['GET', 'POST'])
-def mirror():
+@app.route('/workspaces/<workspace>', methods=['GET', 'PUT', 'PATCH'])
+def workspace(workspace):
     if request.method == 'GET':
-        return "ECHO: GET\n"
+        workspace, status_code = app.mask.show_workspace(workspace)
+        return jsonify(workspace), status_code
+    else:
+        workspace = app.mask.update_workspace(workspace, request.json)
+        return jsonify(workspace)
 
-    elif request.method == 'POST':
-        return jsonify(request.json)
+@app.route('/workspaces/<workspace>/subscriptions', methods=['GET', 'POST'])
+def subscriptions(workspace):
+    if request.method == 'GET':
+        subscriptions = app.mask.subscriptions(workspace)
+        return jsonify(subscriptions)
+    else:
+        subscription = app.mask.create_subscription(workspace, request.json)
+        return jsonify(subscription)
+
+@app.route('/workspaces/<workspace>/subscriptions/<subscription>', methods=['GET', 'DELETE'])
+def subscription(workspace, subscription):
+    if request.method == 'GET':
+        subscription = app.mask.subscription(request.json)
+        return jsonify(subscription)
+    else:
+        result = app.mask.destroy_subscription(request.json)
+        return jsonify(result)
+

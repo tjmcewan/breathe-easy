@@ -1,3 +1,4 @@
+# heroku requirements only (see requirements_testing.txt)
 Flask==0.9
 gunicorn==0.17.2
 Flask-SSLify==0.1.4

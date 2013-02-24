@@ -1,3 +1,5 @@
+# TODO remove pdb
+import pdb
 import sys
 import o2managementlib
 from o2exceptions import *
@@ -8,17 +10,9 @@ class Mask():
         self.o2 = o2managementlib.O2AgentFactory().create_O2Agent(api_key)
         try:
             self.o2.login_api_user(oxygen_id, password)
-        except O2Exception as e:
-            print e.message
-            if e.reason_code == 4:
-                print 'An error occured. Invalid API Key.'
-                sys.exit(1)
-            elif e.reason_code == 26:
-                print 'An error occured. Invalid credentials.'
-                sys.exit(1)
-            else:
-                print 'Something else happened. Reason Code: ' + str(e.reason_code)
-                sys.exit(1)
+        except O2Exception as error:
+            print error.message
+            sys.exit(1)
 
     # def find_user(self, oxygen_id):
     #     return self.o2.get_user_by_oxygen_id(oxygen_id)
@@ -29,51 +23,26 @@ class Mask():
 
 
     def create_workspace(self, arg):
-        pass
+        pdb.set_trace()
+        self.o2.create_space
 
     def show_workspace(self, space_name):
         try:
-            space_info = self.o2.get_space_by_space_name(space_name)
+            workspace = self.o2.get_space_by_space_name(space_name)
         except O2SystemError as error:
-            return { space_name: error.message }
+            return { space_name: error.message }, 404
 
-        workspace_info = {}
-        workspace_info['id'] = space_info.get_space_id()
-        workspace_info['name'] = space_info.get_name()
-        workspace_info['description'] = space_info.get_description()
-        workspace_info['owner_id'] = space_info.get_owner_oxygen_id()
-        workspace_info['storage_name'] = space_info.get_storage_name()
-        workspace_info['utilization'] = space_info.get_utilized()
-        workspace_info['listed_in_space_directory'] = space_info.is_listed()
-        workspace_info['writable_by_default'] = space_info.is_writable_by_default()
-
-        workspace_info = {
-            'id': space_info.get_space_id(),
-            'name': space_info.get_name(),
-            'description': space_info.get_description(),
-            'owner_id': space_info.get_owner_oxygen_id(),
-            'storage_name': space_info.get_storage_name(),
-            'utilization': space_info.get_utilized(),
-            'listed_in_space_directory': space_info.is_listed(),
-            'writable_by_default': space_info.is_writable_by_default()
+        attributes = {
+            'id': workspace.get_space_id(),
+            'name': workspace.get_name(),
+            'description': workspace.get_description(),
+            'owner_id': workspace.get_owner_oxygen_id(),
+            'storage_name': workspace.get_storage_name(),
+            'utilization': workspace.get_utilized(),
+            'listed_in_space_directory': workspace.is_listed(),
+            'writable_by_default': workspace.is_writable_by_default()
         }
-
-        mapping = [
-            ('id', 'get_space_id'),
-            ('name', 'get_name'),
-            ('description', 'get_description'),
-            ('owner_id', 'get_owner_oxygen_id'),
-            ('storage_name', 'get_storage_name'),
-            ('utilization', 'get_utilized'),
-            ('listed_in_space_directory', 'is_listed'),
-            ('writable_by_default', 'is_writable_by_default')
-        ]
-
-        workspace_info = {}
-        for key, value in mapping:
-            workspace_info[key] = getattr(space_info, value)()
-
-        return dict(workspace=workspace_info)
+        return dict(workspace=attributes)
 
     def update_workspace(self, arg):
         pass

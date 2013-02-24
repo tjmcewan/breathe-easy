@@ -1,0 +1,6 @@
+-e git+https://github.com/jarus/flask-testing.git@06fef55#egg=Flask-Testing
+requests
+vcrpy
+nose
+nose-cov
+rednose

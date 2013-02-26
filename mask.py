@@ -3,11 +3,11 @@ import os
 import sys
 import inspect
 
-# for subfolder in ["sdk"]:
-#   abs_path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], subfolder)))
-#   sys.path.append(abs_path)
+for subfolder in ["sdk"]:
+  abs_path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], subfolder)))
+  sys.path.append(abs_path)
 
-import sdk.o2managementlib as o2managementlib
+import o2managementlib
 from o2exceptions import *
 
 class Mask():

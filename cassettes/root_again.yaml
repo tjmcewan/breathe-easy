@@ -2,9 +2,9 @@
     body: null
     headers: {Connection: close, Host: 'localhost:5000', User-Agent: Python-urllib/2.7}
     method: GET
-    url: /
+    url: ''
   response:
     body: {string: Welcome to Respirator!  Take a deep breath and relax.}
-    headers: {content-length: '53', content-type: text/html; charset=utf-8, date: 'Sat,
-        23 Feb 2013 13:30:21 GMT', server: Werkzeug/0.8.3 Python/2.7.3, strict-transport-security: max-age=31536000}
+    headers: {content-length: '53', content-type: text/html; charset=utf-8, date: 'Sun,
+        24 Feb 2013 12:28:58 GMT', server: Werkzeug/0.8.3 Python/2.7.3}
     status: {code: 200, message: OK}

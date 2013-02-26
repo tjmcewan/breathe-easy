@@ -1,4 +1,11 @@
 # heroku requirements only (see requirements_testing.txt)
 Flask==0.9
-gunicorn==0.17.2
-Flask-SSLify==0.1.4
+# gunicorn==0.17.2
+# Flask-SSLify==0.1.4
+
+-e git+https://github.com/jarus/flask-testing.git@eb3a1f0#egg=Flask-Testing
+# requests
+vcrpy
+nose
+rednose
+# nose-cov

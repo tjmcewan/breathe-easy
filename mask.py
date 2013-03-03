@@ -30,7 +30,7 @@ class Mask():
     #     return self.o2.get_subscriptions_for_user(oxygen_id)
 
 
-    def create_workspace(self, space_name):
+    def create_space(self, space_name):
         attributes = [
             space_name,
             'description goes here',
@@ -44,31 +44,52 @@ class Mask():
         attributes = self.get_space_attributes(space)
         return {'space': attributes}
 
-    def show_workspace(self, space_name):
+    def create_user(self, attributes):
         try:
-            workspace = self.o2.get_space_by_space_name(space_name)
-        except O2SystemError as error:
-            return { space_name: error.message }, 404
+            ordered_attributes = [
+                attributes['oxygen_id'],
+                attributes['email'],
+                attributes.get('corporate_user_name', ''),
+                attributes['first_name'],
+                attributes['last_name'],
+                attributes.get('password', '')
+            ]
+        except KeyError as error:
+            return {'missing_key': error}, 400
 
-        attributes = self.get_space_attributes(workspace)
-        return {'workspace': attributes}, 200
+        try:
+            user = self.o2.create_user(*ordered_attributes)
+        except O2InvalidInputError as error:
+            return {attributes['oxygen_id']: error.message}, 400
+
+        attributes = self.get_user_attributes(user)
+        return {'user': attributes}, 200
+
+    def show_space(self, space_name):
+        try:
+            space = self.o2.get_space_by_space_name(space_name)
+        except O2SystemError as error:
+            return {space_name: error.message}, 404
+
+        attributes = self.get_space_attributes(space)
+        return {'space': attributes}, 200
 
     def delete_space(self, space_name):
         try:
             space = self.o2.get_space_by_space_name(space_name)
         except O2SystemError as error:
-            return { space_name: error.message }
+            return {space_name: error.message}
 
         space_id = space.get_space_id()
         try:
             result = self.o2.delete_space(space_id)
         except O2SystemError as error:
-            return { space_name: error.message }
+            return {space_name: error.message}
 
         return {'result': result}
 
 
-    def update_workspace(self, arg):
+    def update_space(self, arg):
         pass
 
     def subscriptions(self, arg):
@@ -98,3 +119,17 @@ class Mask():
             'writable_by_default': space.is_writable_by_default()
         }
 
+    def get_user_attributes(self, user):
+        return {
+            'oxygen_id': user.get_oxygen_id(),
+            'first_name': user.get_first_name(),
+            'last_name': user.get_last_name(),
+            'display_name': user.get_display_name(),
+            'email': user.get_email(),
+            'external?': user.is_external(),
+            'deleted?': user.is_deleted(),
+            'disabled?': user.is_disabled(),
+            'last_login': user.get_last_login_date_time(),
+            'external_id': user.get_external_id(),
+            'not_yet_activated?': user.is_not_activated()
+        }

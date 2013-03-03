@@ -27,6 +27,15 @@ def spaces():
         error = {"error": "ensure parameters include a 'name' key"}
         return jsonify(error), 400
 
+@app.route('/users', methods=['POST'])
+def users():
+    try:
+        attributes = request.json['user']
+        user, status_code = app.mask.create_user(attributes)
+        return jsonify(user), status_code
+    except KeyError:
+        error = {"error": "ensure parameters include a 'user' key"}
+        return jsonify(error), 400
 
 @app.route('/spaces/<space>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 def space(space):
@@ -49,7 +58,8 @@ def subscriptions(space):
         subscription = app.mask.create_subscription(space, request.json)
         return jsonify(subscription)
 
-@app.route('/spaces/<space>/subscriptions/<subscription>', methods=['GET', 'DELETE'])
+@app.route('/spaces/<space>/subscriptions/<subscription>', \
+    methods=['GET', 'DELETE'])
 def subscription(space, subscription):
     if request.method == 'GET':
         subscription = app.mask.subscription(request.json)

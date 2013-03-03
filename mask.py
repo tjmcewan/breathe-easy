@@ -4,8 +4,9 @@ import sys
 import inspect
 
 for subfolder in ["sdk"]:
-  abs_path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0], subfolder)))
-  sys.path.append(abs_path)
+    parent = os.path.split(inspect.getfile( inspect.currentframe() ))[0]
+    abs_path = os.path.realpath(os.path.abspath(os.path.join(parent, subfolder)))
+    sys.path.append(abs_path)
 
 import o2managementlib
 from o2exceptions import *

@@ -44,27 +44,6 @@ class Mask():
         attributes = self.get_space_attributes(space)
         return {'space': attributes}
 
-    def create_user(self, attributes):
-        try:
-            ordered_attributes = [
-                attributes['oxygen_id'],
-                attributes['email'],
-                attributes.get('corporate_user_name', ''),
-                attributes['first_name'],
-                attributes['last_name'],
-                attributes.get('password', '')
-            ]
-        except KeyError as error:
-            return {'missing_key': error}, 400
-
-        try:
-            user = self.o2.create_user(*ordered_attributes)
-        except O2InvalidInputError as error:
-            return {attributes['oxygen_id']: error.message}, 400
-
-        attributes = self.get_user_attributes(user)
-        return {'user': attributes}, 200
-
     def show_space(self, space_name):
         try:
             space = self.o2.get_space_by_space_name(space_name)
@@ -118,6 +97,34 @@ class Mask():
             'listed_in_space_directory': space.is_listed(),
             'writable_by_default': space.is_writable_by_default()
         }
+
+
+    def create_user(self, attributes):
+        try:
+            ordered_attributes = [
+                attributes['oxygen_id'],
+                attributes['email'],
+                attributes.get('corporate_user_name', ''),
+                attributes['first_name'],
+                attributes['last_name'],
+                attributes.get('password', '')
+            ]
+        except KeyError as error:
+            return {'missing_key': error}, 400
+
+        try:
+            user = self.o2.create_user(*ordered_attributes)
+        except O2InvalidInputError as error:
+            return {attributes['oxygen_id']: error.message}, 400
+
+        attributes = self.get_user_attributes(user)
+        return {'user': attributes}, 200
+
+    def get_users(self):
+        users = self.o2.get_all_users()
+        users_attributes = map(self.get_user_attributes, users)
+        return {'users': users_attributes}
+
 
     def get_user_attributes(self, user):
         return {

@@ -27,15 +27,19 @@ def spaces():
         error = {"error": "ensure parameters include a 'name' key"}
         return jsonify(error), 400
 
-@app.route('/users', methods=['POST'])
+@app.route('/users', methods=['GET', 'POST'])
 def users():
-    try:
-        attributes = request.json['user']
-        user, status_code = app.mask.create_user(attributes)
-        return jsonify(user), status_code
-    except KeyError:
-        error = {"error": "ensure parameters include a 'user' key"}
-        return jsonify(error), 400
+    if request.method == 'GET':
+        users = app.mask.get_users()
+        return jsonify(users)
+    else:
+        try:
+            attributes = request.json['user']
+            user, status_code = app.mask.create_user(attributes)
+            return jsonify(user), status_code
+        except KeyError:
+            error = {"error": "ensure parameters include a 'user' key"}
+            return jsonify(error), 400
 
 @app.route('/spaces/<space>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 def space(space):

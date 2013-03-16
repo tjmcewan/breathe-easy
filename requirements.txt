@@ -5,7 +5,6 @@ Flask==0.9
 
 -e git+https://github.com/jarus/flask-testing.git@eb3a1f0#egg=Flask-Testing
 # requests
-vcrpy
 nose
 rednose
 # nose-cov

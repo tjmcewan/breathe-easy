@@ -8,8 +8,9 @@ app = Flask(__name__)
 api_key = os.environ['O2_API_KEY']
 oxygen_id = os.environ['O2_OXYGEN_ID']
 password = os.environ['O2_PASSWORD']
+testing = app.config['TESTING']
 
-app.mask = Mask(api_key, oxygen_id, password, False)
+app.mask = Mask(api_key, oxygen_id, password, testing)
 
 
 @app.route('/')

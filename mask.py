@@ -29,6 +29,8 @@ class Mask():
     #     # oxygen_id = self.find_user(oxygen_id)
     #     return self.o2.get_subscriptions_for_user(oxygen_id)
 
+    def get_all_users(self):
+        self.o2
 
     def create_space(self, space_name):
         attributes = [

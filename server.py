@@ -1,7 +1,7 @@
 import pdb
 import os
 from flask import Flask, send_from_directory, jsonify, request
-from mask import Mask
+from respirator import Respirator
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ oxygen_id = os.environ['O2_OXYGEN_ID']
 password = os.environ['O2_PASSWORD']
 testing = app.config['TESTING']
 
-app.mask = Mask(api_key, oxygen_id, password, testing)
+app.mask = Respirator(api_key, oxygen_id, password, testing)
 
 
 @app.route('/')

@@ -1,5 +1,6 @@
 import pdb
 import os
+from flask_digestauth import FlaskRealmDigestDB
 from flask import Flask, send_from_directory, jsonify, request
 from respirator import Respirator
 
@@ -12,8 +13,12 @@ testing = app.config['TESTING']
 
 app.mask = Respirator(api_key, oxygen_id, password, testing)
 
+authdb = FlaskRealmDigestDB('respirator')
+authdb.add_user('admin', 'passwizzle')
+
 
 @app.route('/')
+@authdb.requires_auth
 def index():
     return 'Welcome to Respirator!  Take a deep breath and relax.'
 
@@ -29,6 +34,7 @@ def spaces():
         return jsonify(error), 400
 
 @app.route('/users', methods=['GET', 'POST'])
+@authdb.requires_auth
 def users():
     if request.method == 'GET':
         users = app.mask.get_users()
